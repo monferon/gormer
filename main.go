@@ -8,18 +8,28 @@ import (
 )
 
 type User struct {
+	ID       int
 	Username string
 	Password string
 	Role     int
 }
 
-func main() {
+func (u User) TableName() string {
+	return "User"
+}
 
+func main() {
+	var User User
 	dsn := "host=localhost user=postgres password=qwerty dbname=postgres port=5432"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(db)
+
+	//firstUser := User{}
+	//db.First(&firstUser)
+
+	t := db.Where("'username' = ?", "Ivan").Find(&User)
+	fmt.Println(t.Rows())
 	fmt.Println("agaga")
 }
