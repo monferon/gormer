@@ -9,6 +9,15 @@ import (
 
 // GET /books
 // Get all books
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /v1/bboks [get]
 func FindBooks(c *gin.Context) {
 	var books []entity.Book
 	database.DB.Find(&books)

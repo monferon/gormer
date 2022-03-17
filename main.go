@@ -2,8 +2,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"gormer/controllers"
 	"gormer/database"
+
+	docs "gormer/docs"
 )
 
 //type User struct {
@@ -36,6 +40,7 @@ import (
 
 func main() {
 	r := gin.Default()
+	docs.SwaggerInfo.BasePath = "/api/v1"
 	database.Connect()
 
 	v1 := r.Group("/v1")
@@ -46,6 +51,6 @@ func main() {
 		v1.PATCH("/books/:id", controllers.UpdateBook)
 		v1.DELETE("/books/:id", controllers.DeleteBook)
 	}
-
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run()
 }
